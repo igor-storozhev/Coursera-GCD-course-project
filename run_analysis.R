@@ -16,33 +16,82 @@
 ##
 #
 
-# Working with dplyr package
+print("# read activity dictionary")
+act_l  <- read.table(file = "UCI HAR Dataset/activity_labels.txt") 
+
+print("# read columns features dictionary")
+cols_l  <- read.table(file = "UCI HAR Dataset/features.txt") 
+
+print("# read train data files")
+train_x <- read.table(file = "UCI HAR Dataset/train/X_train.txt") 
+train_y <- read.table(file = "UCI HAR Dataset/train/y_train.txt") 
+train_s <- read.table(file = "UCI HAR Dataset/train/subject_train.txt") 
+
+print("# make train column names")
+names(train_x) <- cols_l$V2
+
+print("# merge y,x tables")
+train_yx <- cbind(train_y, train_x)
+
+print("# name new column")
+names(train_yx)[1] <- "act_code"
+
+print("# merge subject to y,x")
+train_syx <- cbind(train_s, train_yx)
+
+print("# make column names")
+names(train_syx)[1] <- "subject"
+
+print("# read test data files")
+test_x  <- read.table(file = "UCI HAR Dataset/test/X_test.txt") 
+test_y  <- read.table(file = "UCI HAR Dataset/test/y_test.txt") 
+test_s  <- read.table(file = "UCI HAR Dataset/test/subject_test.txt") 
+
+print("# make test column names")
+names(test_x) <- cols_l$V2
+
+print("# merge y,x tables")
+test_yx <- cbind(test_y, test_x)
+
+print("# name new column")
+names(test_yx)[1] <- "act_code"
+
+print("# merge subject to y,x")
+test_syx <- cbind(test_s, test_yx)
+
+print("# make column names")
+names(test_syx)[1] <- "subject"
+
+print("# 1. merge train and test data")
+data <- rbind(train_syx, test_syx)
+
+print(dim(data))
+
+print("# remove init data to free memory")
+rm(train_x)
+rm(train_y)
+rm(train_s)
+rm(train_yx)
+rm(train_syx)
+rm(test_x)
+rm(test_y)
+rm(test_s)
+rm(test_yx)
+rm(test_syx)
+#rm(activity_labels_file)
+
+print("# Working with dplyr package")
 library(dplyr)
 
-# read data files
-traning_data_file  <- read.csv(file = "UCI HAR Dataset/train/X_train.txt", 
-			       header = F, sep = " ")
-traning_label_file <- read.csv(file = "UCI HAR Dataset/train/y_train.txt", 
-			       header = F, sep = " ")
-testing_data_file  <- read.csv(file = "UCI HAR Dataset/test/X_test.txt", 
-			       header = F, sep = " ")
-testing_label_file <- read.csv(file = "UCI HAR Dataset/test/y_test.txt", 
-			       header = F, sep = " ")
+print("# convert to dplyr structure")
 
-# read dictionary
-acivity_labels_file <- read.csv(file = "UCI HAR Dataset/activity_labels.txt", 
-				header = F, sep = " ")
+#train <- tbl_df(training_data_file)
+#train_label <- tbl_df(training_label_file)
+#test  <- tbl_df(testing_data_file)
+#test_label <-tbl_df(testing_label_file)
+#act_label <- tbl_df(activity_labels_file)
 
-# convert to dplyr structure
-train <- tbl_df(traning_data_file)
-train_label <- tbl_df(traning_label_file)
-test  <- tbl_df(testing_data_file)
-test_label <-tbl_df(testing_label_file)
-act_label <- tbl_df(activity_labels_file)
-rm(training_data_file)
 
-# 1. merge train an test
-merged_data <- rbind_list(train, test)
+print("# 2. extracts only mean and standart deviation columns")
+#mean_devi <- select(merged_data, contains("mean", ignore.case = TRUE))
 
-# 2. extracts only mean and standart deviation
-mean_data <- select(merged_data, )
