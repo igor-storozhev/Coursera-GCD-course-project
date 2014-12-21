@@ -1,14 +1,27 @@
 Coursera-GCD-course-project
 ===========================
 
-The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis.
+The purpose of this project is to demonstrate student ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis.
 
-It is expected data for script are located in the same directory.
+It is assumed that data for script are located in the same directory.
 
-Expected script output:
+Expected directory structure:
+```
+./CodeBook.md  
+  README.md   
+  run_analysis.R  
+  resTbl.txt  
+
+./UCI HAR Dataset:
+./UCI HAR Dataset/test:
+./UCI HAR Dataset/train:
+```
+
+Expected script running command and output:
 
 ```
 > source("run_analysis.R")
+
 [1] "# read activity dictionary"
 [1] "# read columns features dictionary"
 [1] "# read train data files"
