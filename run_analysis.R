@@ -1,4 +1,4 @@
-##Here are the data for the project:
+##Here are the data for the project script:
 #
 #https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 #
@@ -78,20 +78,51 @@ rm(test_y)
 rm(test_s)
 rm(test_yx)
 rm(test_syx)
-#rm(activity_labels_file)
+rm(cols_l)
+#rm(act_l)
 
-print("# Working with dplyr package")
-library(dplyr)
-
-print("# convert to dplyr structure")
-
-#train <- tbl_df(training_data_file)
-#train_label <- tbl_df(training_label_file)
-#test  <- tbl_df(testing_data_file)
-#test_label <-tbl_df(testing_label_file)
-#act_label <- tbl_df(activity_labels_file)
+#data.df <- tbl_df(data)
+#act.df <- tbl_df(act_l)
 
 
 print("# 2. extracts only mean and standart deviation columns")
-#mean_devi <- select(merged_data, contains("mean", ignore.case = TRUE))
+cols <- c("subject", "act_code",  
+	  "tBodyAcc-mean()-X", "tBodyAcc-mean()-Y", "tBodyAcc-mean()-Z",
+	  "tBodyAcc-std()-X",  "tBodyAcc-std()-Y",  "tBodyAcc-std()-Z")
 
+extData <- data[ , cols]
+
+
+print("# 3. Name the acitvities in data set")
+extData$act_code <- with(act_l, V2[match(extData$act_code, V1)])
+
+print("# 4. Label data set with descriptive variable names.")
+names(extData)[2] <- "activity"
+names(extData)[3] <- "accMeanX"
+names(extData)[4] <- "accMeanY"
+names(extData)[5] <- "accMeanZ"
+names(extData)[6] <- "accStdX"
+names(extData)[7] <- "accStdY"
+names(extData)[8] <- "accStdZ"
+names(extData)
+
+print("# 5. Group by each subject, activity and count mean of acc.* variables.")
+print("# Working with dplyr package")
+library(dplyr)
+
+print("# Convert data to dplyr structure and group by subject, activity")
+extTbl <- group_by(tbl_df(extData), subject, activity)
+
+print("# Culculate result data set")
+resTbl <- summarise(extTbl, aggrMeanAccX = mean(accMeanX), 
+		    aggrMeanAccY = mean(accMeanY), 
+		    aggrMeanAccZ = mean(accMeanZ), 
+		    aggrStdAccX = mean(accStdX), 
+		    aggrStdAccY = mean(accStdY), 
+		    aggrStdAccZ = mean(accStdZ))
+print(resTbl)
+
+print("# Write result data set to resTbl.txt")
+write.table(resTbl, file = "resTbl.txt", row.name = FALSE)
+
+print("# End of script")
