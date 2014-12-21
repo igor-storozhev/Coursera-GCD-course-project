@@ -5,8 +5,9 @@ The purpose of this project is to demonstrate your ability to collect, work with
 
 It is expected data for script are located in the same directory.
 
-Script output:
+Expected script output:
 
+```
 > source("run_analysis.R")
 [1] "# read activity dictionary"
 [1] "# read columns features dictionary"
@@ -62,4 +63,4 @@ Variables not shown: aggrStdAccX (dbl), aggrStdAccY (dbl), aggrStdAccZ (dbl)
 [1] "# Write result data set to resTbl.txt"
 [1] "# End of script"
 > 
- 
+``` 
