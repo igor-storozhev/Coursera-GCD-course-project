@@ -12,9 +12,14 @@ Expected directory structure:
   run_analysis.R  
   resTbl.txt  
 
-./UCI HAR Dataset:
-./UCI HAR Dataset/test:
-./UCI HAR Dataset/train:
+./UCI HAR Dataset
+./UCI HAR Dataset/test
+./UCI HAR Dataset/train
+```
+
+Result data file is named "resTbl.txt". This result file can be read by using R command:
+```
+data <- (read.table("resTbl.txt", header=T ))
 ```
 
 Expected script running command and output:
